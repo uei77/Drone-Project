@@ -1,0 +1,22 @@
+# ESP-IDF derleme çıktıları (her derlemede yeniden oluşur)
+build/
+managed_components/
+sdkconfig
+sdkconfig.old
+
+# Editör ayarları (bilgisayara özel yollar içerir)
+.vscode/
+
+# Sunucunun kaydettiği kamera kareleri
+frames/
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# İşletim sistemi dosyaları
+Thumbs.db
+desktop.ini
+.DS_Store

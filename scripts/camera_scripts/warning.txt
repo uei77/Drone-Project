@@ -1,0 +1,1 @@
+ESP32-CAM gerilim düşmelerine çok hassas. Drone'da motorlar gerilimi dalgalandırdığında kart kendini yeniden başlatır (brownout). Kartı ayrı ve kaliteli bir 5V BEC ile besle ve besleme girişine 470–1000 µF'lık bir kondansatör koy. Sahadaki kopmaların çoğu yazılımdan değil bu beslemeden kaynaklanır.
