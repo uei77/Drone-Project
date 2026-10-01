@@ -1,4 +1,0 @@
-fastapi
-uvicorn
-pillow
-#for now any other library will be added to this file 

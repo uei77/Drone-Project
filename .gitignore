@@ -7,7 +7,7 @@ sdkconfig.old
 # Editör ayarları (bilgisayara özel yollar içerir)
 .vscode/
 
-# Sunucunun kaydettiği kamera kareleri
+# Bilgisayara kaydedilen kamera kareleri (eğitim verisi)
 frames/
 
 # Python
