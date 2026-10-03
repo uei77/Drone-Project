@@ -191,6 +191,16 @@ check(pd.pair_key(os.path.join(wroot, "flightA", "visual", "0007.jpg"), wroot) =
 items = pd.read_wisard(wroot)
 check(len(items) == 17 and all("thermal" in it["thermal"]["path"] or it["thermal"]["path"].endswith("_T.jpg") for it in items),
       "every camera picture found its thermal picture (two naming styles)")
+# the published folder style: ..._IR_0004 / ..._VIS_0003, thermal frames from 1, camera frames from 0
+proot = os.path.join(tmp, "wisard_pub")
+for i in range(3):
+    pair(os.path.join(proot, "210417_Site_Drone_VIS_0003", f"210417_Site_Drone_VIS_0003_{i:08d}.jpeg"),
+         os.path.join(proot, "210417_Site_Drone_IR_0004", f"210417_Site_Drone_IR_0004_{i + 1:08d}.jpeg"), [(700, 500), (1200, 300)])
+pub = pd.read_wisard(proot)
+check(len(pub) == 3 and all(os.path.basename(it["path"])[-10:-5] == f"{i:05d}" and
+                            os.path.basename(it["thermal"]["path"])[-10:-5] == f"{i + 1:05d}" for i, it in enumerate(pub)),
+      "published WiSARD folder names: folders matched, pictures paired in order")
+
 pd.register_pairs(items)
 reg = np.array([it["reg"] for it in items], float)
 check(np.abs(reg[:, 0] - K_).max() < 0.05 and np.abs(reg[:, 1] - OX).max() < 6 and np.abs(reg[:, 2] - OY).max() < 6,

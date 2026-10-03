@@ -146,10 +146,32 @@ def read_wisard(root):
         (th if THERMAL_PATH.search(rel) else cam)[pair_key(it["path"], root)] = it
     both = sorted(set(cam) & set(th))
     how = "by file name"
-    if not both and cam and len(cam) == len(th):          # names differ: same order in both lists
-        both, how = list(range(len(cam))), "by position in the sorted file lists (names did not match)"
-        cam, th = dict(enumerate(cam[k] for k in sorted(cam))), dict(enumerate(th[k] for k in sorted(th)))
-    print(f"{len(cam)} camera and {len(th)} thermal pictures, {len(both)} pairs {how}")
+    if not both:
+        # WiSARD as published: one folder per camera and flight (..._IR_0004, ..._VIS_0003) whose
+        # numbers differ, frames numbered from 1 and from 0. So: folders that are alike apart
+        # from the camera word and the number go together, and their pictures pair up in order.
+        def by_folder(d):
+            out = {}
+            for k in sorted(d):
+                out.setdefault(os.path.dirname(d[k]["path"]), []).append(d[k])
+            return out
+        fkey = lambda folder: re.sub(r"_?\d+$", "", pair_key(folder + ".x", root))
+        cf, tf, pairs = by_folder(cam), by_folder(th), []
+        for key in sorted({fkey(f) for f in cf} & {fkey(f) for f in tf}):
+            cs, ts = [f for f in sorted(cf) if fkey(f) == key], [f for f in sorted(tf) if fkey(f) == key]
+            for c, t in zip(cs, ts):
+                if len(cs) == len(ts) and len(cf[c]) == len(tf[t]):
+                    pairs += list(zip(cf[c], tf[t]))
+                else:
+                    print(f"  not paired (different number of folders or pictures): {os.path.relpath(c, root)} / {os.path.relpath(t, root)}")
+        how = "by folder and position (the names differ only in the camera word and numbers)"
+        cam2, th2 = dict(enumerate(c for c, _ in pairs)), dict(enumerate(t for _, t in pairs))
+        both = list(cam2)
+        if both:
+            n_cam, n_th, cam, th = len(cam), len(th), cam2, th2
+            print(f"{n_cam} camera and {n_th} thermal pictures, {len(both)} pairs {how}")
+    if how == "by file name":
+        print(f"{len(cam)} camera and {len(th)} thermal pictures, {len(both)} pairs {how}")
     if not both:
         ex = lambda d: [os.path.relpath(v["path"], root) for v in list(d.values())[:3]]
         sys.exit("could not pair camera and thermal pictures. A thermal picture needs 'thermal', 'lwir' or 'ir' "
