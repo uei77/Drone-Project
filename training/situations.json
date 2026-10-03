@@ -1,0 +1,21 @@
+{
+  "version": 1,
+  "mission": "search and rescue, camera looks straight down",
+  "about": "The one situation list. label_tool.py and prepare_data.py read the classes, export_c.py writes the firmware table (situations.c) from it. thr / thr_low / n_on / m_off are the tracker settings per SWEEP (see tracker.h); pick thr from the table evaluate.py prints. size_px = typical target size in the 320x240 frame from 25-30 m (about 10 cm per pixel), used to scale downloaded images.",
+  "classes": [
+    {"name": "normal",         "key": "0", "uses_position": false, "response": "none",
+     "note": "Empty terrain. Never labelled: every frame outside an event is normal."},
+    {"name": "person",         "key": "1", "uses_position": true,  "response": "hold_report",
+     "urgency": 2, "hold_ms": 10000, "priority": 3, "size_px": [5, 14],
+     "thr": 0.80, "thr_low": 0.60, "n_on": 3, "m_off": 3, "cooldown_ms": 30000, "max_active_ms": 30000,
+     "note": "A person seen from above (standing, lying, waving). Stop, hold, report the position."},
+    {"name": "landing_marker", "key": "2", "uses_position": true,  "response": "center_land",
+     "urgency": 1, "hold_ms": 0, "priority": 1, "size_px": [20, 32],
+     "thr": 0.85, "thr_low": 0.65, "n_on": 3, "m_off": 4, "cooldown_ms": 30000, "max_active_ms": 120000,
+     "note": "An H or another clear marker on the ground. Centre, descend while correcting, land (if the FC allows it)."},
+    {"name": "vehicle_wreck",  "key": "3", "uses_position": true,  "response": "hold_report",
+     "urgency": 1, "hold_ms": 5000, "priority": 2, "size_px": [25, 50],
+     "thr": 0.80, "thr_low": 0.60, "n_on": 3, "m_off": 3, "cooldown_ms": 30000, "max_active_ms": 30000,
+     "note": "A large man-made object: car, tent, wreckage. Stop and report."}
+  ]
+}

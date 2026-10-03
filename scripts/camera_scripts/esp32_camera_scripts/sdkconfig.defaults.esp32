@@ -1,0 +1,4 @@
+# AI-Thinker ESP32-CAM: 4 MB flash, 4 MB quad PSRAM.
+# PSRAM stays at the default 40 MHz: on the ESP32 the 80 MHz option also needs the flash at
+# 80 MHz, which is not guaranteed on these boards.
+CONFIG_ESPTOOLPY_FLASHSIZE_4MB=y

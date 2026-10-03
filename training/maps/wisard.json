@@ -1,0 +1,4 @@
+{
+  "_about": "WiSARD (YOLO labels, one class): class number 0 -> person. Check with --list-classes.",
+  "0": "person"
+}

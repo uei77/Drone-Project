@@ -1,0 +1,15 @@
+{
+  "_about": "VisDrone-DET classes -> situations. Not listed = background. 'ignore' = not used for training.",
+  "pedestrian": "person",
+  "people": "person",
+  "car": "vehicle_wreck",
+  "van": "vehicle_wreck",
+  "truck": "vehicle_wreck",
+  "bus": "vehicle_wreck",
+  "ignored regions": "ignore",
+  "others": "ignore",
+  "bicycle": "ignore",
+  "motor": "ignore",
+  "tricycle": "ignore",
+  "awning-tricycle": "ignore"
+}

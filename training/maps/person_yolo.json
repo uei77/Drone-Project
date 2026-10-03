@@ -1,0 +1,4 @@
+{
+  "_about": "YOLO dataset with one class (person), e.g. SARD: class number 0 -> person. Check with --list-classes.",
+  "0": "person"
+}

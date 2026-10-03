@@ -1,13 +1,13 @@
-# ESP-IDF derleme çıktıları (her derlemede yeniden oluşur)
+# ESP-IDF build output (recreated by every build)
 build/
 managed_components/
 sdkconfig
 sdkconfig.old
 
-# Editör ayarları (bilgisayara özel yollar içerir)
+# Editor settings (contain paths of one computer)
 .vscode/
 
-# Bilgisayara kaydedilen kamera kareleri (eğitim verisi)
+# Camera frames saved on the PC (training data)
 frames/
 
 # Python
@@ -16,7 +16,29 @@ __pycache__/
 .venv/
 venv/
 
-# İşletim sistemi dosyaları
+# Operating system files
 Thumbs.db
 desktop.ini
 .DS_Store
+
+# Training outputs (regenerated, large)
+training/run_*/
+training/data_*.npz
+training/flights/
+training/trk_harness
+training/trk_harness.exe
+training/data/
+training/sheet.png
+run_*/
+
+# Recorded flights and prepared datasets, wherever the tools were started from (hundreds of MB)
+flights/
+data/
+*.tmp
+
+# Host test binaries
+test_host
+test_host.exe
+
+# Real Wi-Fi name and password for the data-collection build
+wifi_secret.h
