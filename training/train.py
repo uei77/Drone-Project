@@ -1,4 +1,4 @@
-"""Trains the DroneLaya step model on a dataset folder made by prepare_data.py.
+"""Trains the Situation Selector step model on a dataset folder made by prepare_data.py.
 
 usage: python train.py --data data/visdrone [--variant v22] [--seed 1] [--out run_name]
   v22 : v2.1 + thermal channel (default). Works on a dataset without thermal too: the channel

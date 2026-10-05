@@ -1,4 +1,4 @@
-"""Synthetic drone-camera streams for DroneLaya v2 / v2.1 experiments.
+"""Synthetic drone-camera streams for Situation Selector v2 / v2.1 experiments.
 
 Harder than the earlier verification set on purpose:
   * ego-motion: the ground texture slides under the camera (drone is flying),

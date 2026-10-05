@@ -76,7 +76,7 @@ ops = ", ".join(f"{k} x{v}" for k, v in sorted(ev["ops"].items()))
 names = ", ".join(f'"{n}"' for n in NAMES)
 with open(os.path.join(a.fw, "model_meta.h"), "w") as f:
     f.write(hdr + "#pragma once\n\n")
-    f.write(f"#define MODEL_VERSION        \"dronelaya-{ev['variant']}-{name}-{stamp}\"\n")
+    f.write(f"#define MODEL_VERSION        \"selector-{ev['variant']}-{name}-{stamp}\"\n")
     f.write(f"#define MODEL_NUM_CLASSES    {K}\n")
     f.write(f"#define MODEL_STATE_DIM      {H}\n")
     f.write(f"#define MODEL_IMG_CHANNELS   {ev['channels']}   /* current, previous{', thermal' if ev['channels'] == 3 else ''} */\n")

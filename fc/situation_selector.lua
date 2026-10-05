@@ -1,5 +1,5 @@
 --[[
-DroneLaya flight-controller side (ArduCopter Lua script) - REFERENCE, NOT YET RUN IN SITL.
+Situation Selector flight-controller side (ArduCopter Lua script) - REFERENCE, NOT YET RUN IN SITL.
 
 Wiring/params:
   SCR_ENABLE = 1, SERIALx_PROTOCOL = 28 (Scripting), SERIALx_BAUD = 115
@@ -13,7 +13,7 @@ Protocol: see esp32_camera_scripts/main/proto.h
 
 local MODE_AUTO, MODE_GUIDED, MODE_RTL, MODE_LAND = 3, 4, 6, 9
 local PARAM_KEY = 72
-assert(param:add_table(PARAM_KEY, "DLV_", 8), "DLV_ param table")
+assert(param:add_table(PARAM_KEY, "SSV_", 8), "SSV_ param table")
 param:add_param(PARAM_KEY, 1, "ENABLE", 1)      -- 0 off, 1 react to events
 param:add_param(PARAM_KEY, 2, "SPEED", 0.5)     -- m/s, max speed of one $ACT step
 param:add_param(PARAM_KEY, 3, "MIN_ALT", 5)     -- m, no reactions below this
@@ -22,13 +22,13 @@ param:add_param(PARAM_KEY, 5, "FAIL_RTL", 0)    -- 1 = RTL instead of AUTO on ti
 param:add_param(PARAM_KEY, 6, "MAX_PAUSE", 120) -- s, longest vision pause (centre + guided descent takes about a minute)
 param:add_param(PARAM_KEY, 7, "VMODE", 1)       -- vision mode sent to ESP32: 0 off, 1 shadow, 2 active
 
-local P_ENABLE, P_SPEED = Parameter("DLV_ENABLE"), Parameter("DLV_SPEED")
-local P_MIN_ALT, P_LAND_OK = Parameter("DLV_MIN_ALT"), Parameter("DLV_LAND_OK")
-local P_FAIL_RTL, P_MAX_PAUSE = Parameter("DLV_FAIL_RTL"), Parameter("DLV_MAX_PAUSE")
-local P_VMODE = Parameter("DLV_VMODE")
+local P_ENABLE, P_SPEED = Parameter("SSV_ENABLE"), Parameter("SSV_SPEED")
+local P_MIN_ALT, P_LAND_OK = Parameter("SSV_MIN_ALT"), Parameter("SSV_LAND_OK")
+local P_FAIL_RTL, P_MAX_PAUSE = Parameter("SSV_FAIL_RTL"), Parameter("SSV_MAX_PAUSE")
+local P_VMODE = Parameter("SSV_VMODE")
 
 local port = serial:find_serial(0)
-assert(port, "DroneLaya: no scripting serial port")
+assert(port, "Situation Selector: no scripting serial port")
 port:begin(115200)
 port:set_flow_control(0)
 
@@ -55,7 +55,7 @@ local function end_pause(reason)
   if not paused then return end
   paused = false
   act_until = 0
-  gcs:send_text(6, "DLV: resume (" .. reason .. ")")
+  gcs:send_text(6, "SSV: resume (" .. reason .. ")")
   if vehicle:get_mode() == MODE_GUIDED then
     if P_FAIL_RTL:get() == 1 and reason ~= "done" then vehicle:set_mode(MODE_RTL)
     else vehicle:set_mode(MODE_AUTO) end
@@ -80,8 +80,8 @@ local function on_evt(f)
   if alt_m() < P_MIN_ALT:get() then return end
   if vehicle:set_mode(MODE_GUIDED) then          -- GUIDED with no target = hold position
     paused, pause_seq, pause_start, last_cmd = true, seq, now(), now()
-    logger:write("DLVE", "Seq,Sit,Conf", "HNB", seq, f[3] or "?", tonumber(f[4]) or 0)
-    gcs:send_text(5, "DLV: event " .. (f[3] or "?") .. " " .. (f[4] or "?") .. "%")
+    logger:write("SSVE", "Seq,Sit,Conf", "HNB", seq, f[3] or "?", tonumber(f[4]) or 0)
+    gcs:send_text(5, "SSV: event " .. (f[3] or "?") .. " " .. (f[4] or "?") .. "%")
     send("ACK," .. seq)
   end
 end
@@ -119,8 +119,8 @@ local function handle(line)
   elseif f[1] == "ACT" then on_act(f)
   elseif f[1] == "TGT" then last_cmd = now()
   elseif f[1] == "SHD" then
-    logger:write("DLVS", "Sit,Conf", "NB", f[2] or "?", tonumber(f[3]) or 0)
-    gcs:send_text(6, "DLV shadow: " .. (f[2] or "?") .. " " .. (f[3] or "?") .. "%")
+    logger:write("SSVS", "Sit,Conf", "NB", f[2] or "?", tonumber(f[3]) or 0)
+    gcs:send_text(6, "SSV shadow: " .. (f[2] or "?") .. " " .. (f[3] or "?") .. "%")
   end
 end
 
@@ -165,5 +165,5 @@ local function update()
   return update, 20
 end
 
-gcs:send_text(6, "DroneLaya FC script loaded")
+gcs:send_text(6, "Situation Selector FC script loaded")
 return update, 100

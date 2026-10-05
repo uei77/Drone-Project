@@ -1,4 +1,4 @@
-"""DroneLaya step models.
+"""Situation Selector step models.
   v2  : first design                      image channels: current, previous
   v21 : + dt, ego-motion, keypoint spread image channels: current, previous
   v22 : v21 + thermal                     image channels: current, previous, thermal
@@ -106,7 +106,7 @@ def build(variant, K):
     h2 = ClipUnit(name="h_clip")(h2)
     logits = P.state_head(h2)
     pos = P.pos_head(L.Concatenate()([h2, e]))
-    step = keras.Model([img, tel, h], [logits, pos, h2], name=f"dronelaya_{variant}")
+    step = keras.Model([img, tel, h], [logits, pos, h2], name=f"selector_{variant}")
 
     img1 = keras.Input((96, 96, 1), name="image1")
     tel1 = keras.Input((16,), name="telemetry1")

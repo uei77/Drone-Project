@@ -1,6 +1,6 @@
 #pragma once
 /*
- * DroneLaya v2.2 firmware settings (tiled scan: 320x240 frame, twelve 96x96 tiles).
+ * Situation Selector v2.2 firmware settings (tiled scan: 320x240 frame, twelve 96x96 tiles).
  * Pure C header (no ESP-IDF includes) so the host unit tests can use it too.
  * now_ms() moved to util.h. Situation list and per-situation policy live in situations.c.
  */

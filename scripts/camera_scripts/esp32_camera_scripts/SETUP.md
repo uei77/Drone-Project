@@ -129,7 +129,7 @@ Press **Ctrl+]** to exit the monitor. If flashing stops with "Failed to connect 
 In the serial monitor you should see:
 
 ```
-I (...) main: board: AI-Thinker ESP32-CAM, model: dronelaya-v21-synthetic-...
+I (...) main: board: AI-Thinker ESP32-CAM, model: selector-v21-synthetic-...
 I (...) main: Camera OK: 320x240, 76800 bytes
 I (...) infer: ready: arena ..... / 81920 B, 2 image channels, img fast path 1, h in ... out ...
 I (...) main: sweep 1200 ms (0.8/s), invoke 98000 us avg, best=marker p=0.04 tile 7, tel age 4294967295 ms
@@ -202,5 +202,5 @@ Expected: `127 checks, 0 failed`.
 3. **Train a first model on a downloaded dataset:** `training/README.md` (prepare_data → train → evaluate → export_c). `export_c.py` writes `model_data.c`, `model_meta.h` and `situations.c`.
 4. **Collect real data:** set `COLLECT_MODE 1`, run `training/recorder.py`, fly. Label the events, add the flights to the training data.
 5. **Thermal camera:** a model trained as `v22` has a third image channel for a thermal frame. The firmware side is ready (`thermal.h` describes the frame format, `scan_thermal_tile()` cuts it into tiles) but `thermal.c` has no sensor driver yet: until then the log says `thermal: model wants it, no sensor` and the model runs on the camera alone. The driver needs an ESP32-S3 board (the ESP32-CAM has no free pins).
-6. **Flight controller:** the drone will use INAV. `fc/dronelaya.lua` is the ArduPilot reference of the FC side (not usable on INAV); the INAV adapter is not written yet.
+6. **Flight controller:** the drone will use INAV. `fc/situation_selector.lua` is the ArduPilot reference of the FC side (not usable on INAV); the INAV adapter is not written yet.
 7. **Shadow flights**, review every `$SHD`, add false alarms to training as "normal", retrain. Switch to ACTIVE only when shadow flights show ≤ 1 false event per hour.

@@ -1,6 +1,6 @@
 #pragma once
 /*
- * DroneLaya step model wrapper (TFLite Micro). C interface.
+ * Situation Selector step model wrapper (TFLite Micro). C interface.
  * Stateless: the caller owns the recurrent state h and the previous image, so the same
  * model can serve many tiles, each with its own memory.
  */

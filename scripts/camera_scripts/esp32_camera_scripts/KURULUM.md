@@ -129,7 +129,7 @@ Monitörden çıkmak için **Ctrl+]**. Yükleme "Failed to connect to ESP32" hat
 Seri monitörde şunları görmelisin:
 
 ```
-I (...) main: board: AI-Thinker ESP32-CAM, model: dronelaya-v21-synthetic-...
+I (...) main: board: AI-Thinker ESP32-CAM, model: selector-v21-synthetic-...
 I (...) main: Camera OK: 320x240, 76800 bytes
 I (...) infer: ready: arena ..... / 81920 B, 2 image channels, img fast path 1, h in ... out ...
 I (...) main: sweep 1200 ms (0.8/s), invoke 98000 us avg, best=marker p=0.04 tile 7, tel age 4294967295 ms
@@ -202,5 +202,5 @@ Beklenen: `127 checks, 0 failed`.
 3. **İlk modeli indirdiğin verisetiyle eğit:** `training/README.md` (prepare_data → train → evaluate → export_c). `export_c.py`; `model_data.c`, `model_meta.h` ve `situations.c` dosyalarını yazar.
 4. **Gerçek veri topla:** `COLLECT_MODE 1` yap, `training/recorder.py`'yi çalıştır, uç. Olayları etiketle, uçuşları eğitim verisine ekle.
 5. **Termal kamera:** `v22` olarak eğitilen modelin termal kare için üçüncü bir görüntü kanalı var. Firmware tarafı hazır (`thermal.h` kare biçimini anlatır, `scan_thermal_tile()` kareyi parçalara böler) ama `thermal.c` içinde henüz sensör sürücüsü yok: o zamana kadar kayıtta `thermal: model wants it, no sensor` yazar ve model yalnızca kamerayla çalışır. Sürücü ESP32-S3 kartı ister (ESP32-CAM'de boş pin yok).
-6. **Uçuş kontrolcüsü:** drone INAV kullanacak. `fc/dronelaya.lua`, FC tarafının ArduPilot için yazılmış örneğidir (INAV'da çalışmaz); INAV bağdaştırıcısı henüz yazılmadı.
+6. **Uçuş kontrolcüsü:** drone INAV kullanacak. `fc/situation_selector.lua`, FC tarafının ArduPilot için yazılmış örneğidir (INAV'da çalışmaz); INAV bağdaştırıcısı henüz yazılmadı.
 7. **Shadow uçuşları:** her `$SHD`'yi incele, yanlış alarmları "normal" olarak eğitime ekle, yeniden eğit. Shadow uçuşları saatte ≤ 1 yanlış olay gösterince ACTIVE moda geç.

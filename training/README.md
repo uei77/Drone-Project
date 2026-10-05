@@ -1,4 +1,4 @@
-# DroneLaya training pipeline
+# Situation Selector training pipeline
 
 Everything that runs on the PC: turning data into training streams, training, int8 export,
 firmware parity checks, and the recorder / label tool for real flight data.

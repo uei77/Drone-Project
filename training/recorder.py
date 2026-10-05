@@ -29,7 +29,7 @@ from telemetry import RAW_FIELDS
 
 import tiles
 
-MAGIC, SLICE = 0x32564C44, 1200                                        # "DLV2", see collect.h
+MAGIC, SLICE = 0x32565353, 1200                                        # "SSV2", see collect.h
 HDR = struct.Struct("<IIBBHHHII" + "I" + "6f" + "HH" + "f" + "i")      # packet header + telemetry_t
 MODES = {0: "other", 1: "AUTO", 2: "PAUSED", 3: "RTL/LAND"}
 MAX_MISSING = 8          # packets (of 64) a frame may lose and still be kept
@@ -271,7 +271,7 @@ def main():
             now = time.time()
             hist = [h for h in hist if now - h[0] < 2.0] + [(now, n)]
             fps = (hist[-1][1] - hist[0][1]) / max(hist[-1][0] - hist[0][0], 1e-3)
-            cv2.imshow("DroneLaya recorder", render(rec, n, fps, rx.lost, now - t0, rx.marks()))
+            cv2.imshow("Situation Selector recorder", render(rec, n, fps, rx.lost, now - t0, rx.marks()))
             k = cv2.waitKey(30) & 0xFF
             if k in (ord("q"), 27):
                 break

@@ -225,7 +225,7 @@ def main():
     a = ap.parse_args()
     import cv2
     s = Session(a.flight, a.situations, a.labeler)
-    win = "DroneLaya labelling - " + os.path.basename(a.flight)
+    win = "Situation Selector labelling - " + os.path.basename(a.flight)
 
     def on_mouse(ev, x, y, flags, _):
         if ev != cv2.EVENT_LBUTTONDOWN:
